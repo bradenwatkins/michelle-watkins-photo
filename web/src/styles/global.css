@@ -1,0 +1,26 @@
+/* purgecss start ignore */
+@tailwind base;
+@tailwind components;
+/* purgecss end ignore */
+@tailwind utilities;
+
+h1 {
+  @apply text-lg;
+  @apply uppercase;
+  @apply text-gray-600;
+  @apply tracking-wider;
+}
+
+h2 {
+  @apply text-xs;
+  @apply uppercase;
+  @apply text-gray-600;
+  @apply tracking-widest;
+}
+
+h3 {
+  @apply text-xs;
+  @apply uppercase;
+  @apply text-gray-600;
+  @apply tracking-widest;
+}

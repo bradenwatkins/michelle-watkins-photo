@@ -7,9 +7,9 @@ import {
 } from '../lib/helpers'
 import Container from '../components/container'
 import GraphQLErrorList from '../components/graphql-error-list'
-import ProjectPreviewGrid from '../components/project-preview-grid'
+import AlbumCover from '../components/albumCover'
 import SEO from '../components/seo'
-import Layout from '../containers/layout'
+import Layout from '../components/layout'
 
 export const query = graphql`
   query IndexPageQuery {
@@ -18,7 +18,7 @@ export const query = graphql`
       description
       keywords
     }
-    projects: allSanitySampleProject(
+    albums: allSanityAlbum(
       limit: 6
       sort: {fields: [publishedAt], order: DESC}
       filter: {slug: {current: {ne: null}}, publishedAt: {ne: null}}
@@ -27,29 +27,15 @@ export const query = graphql`
         node {
           id
           mainImage {
-            crop {
-              _key
-              _type
-              top
-              bottom
-              left
-              right
-            }
-            hotspot {
-              _key
-              _type
-              x
-              y
-              height
-              width
-            }
             asset {
               _id
+              fluid {
+                ...GatsbySanityImageFluid
+              }
             }
             alt
           }
           title
-          _rawExcerpt
           slug {
             current
           }
@@ -71,8 +57,8 @@ const IndexPage = props => {
   }
 
   const site = (data || {}).site
-  const projectNodes = (data || {}).projects
-    ? mapEdgesToNodes(data.projects)
+  const albumNodes = (data || {}).albums
+    ? mapEdgesToNodes(data.albums)
       .filter(filterOutDocsWithoutSlugs)
       .filter(filterOutDocsPublishedInTheFuture)
     : []
@@ -83,17 +69,19 @@ const IndexPage = props => {
     )
   }
 
+  console.log(albumNodes)
+
   return (
     <Layout>
       <SEO title={site.title} description={site.description} keywords={site.keywords} />
       <Container>
         <h1 hidden>Welcome to {site.title}</h1>
-        {projectNodes && (
-          <ProjectPreviewGrid
-            title='Latest projects'
-            nodes={projectNodes}
-            browseMoreHref='/archive/'
-          />
+        {albumNodes && (
+          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16'>
+            {albumNodes.map((album, i) => (
+              <AlbumCover key={i} album={album} />
+            ))}
+          </div>
         )}
       </Container>
     </Layout>
