@@ -19,7 +19,7 @@ export const query = graphql`
       keywords
     }
     albums: allSanityAlbum(
-      limit: 6
+      limit: 15
       sort: {fields: [publishedAt], order: DESC}
       filter: {slug: {current: {ne: null}}, publishedAt: {ne: null}}
     ) {
