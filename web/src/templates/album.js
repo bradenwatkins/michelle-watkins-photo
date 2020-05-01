@@ -14,6 +14,11 @@ export const query = graphql`
         _id
         title
       }
+      images {
+        asset {
+          originalFilename
+        }
+      }
       mainImage {
         crop {
           _key
@@ -47,10 +52,13 @@ export const query = graphql`
 const AlbumTemplate = props => {
   const {data, errors} = props
   const album = data && data.album
+  const {images} = album
+  console.log(images)
   return (
     <Layout>
       {errors && <SEO title='GraphQL Error' />}
       {album && <SEO title={album.title || 'Untitled'} />}
+      {images && JSON.stringify(images)}
 
       {errors && (
         <Container>
