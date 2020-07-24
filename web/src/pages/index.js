@@ -69,8 +69,6 @@ const IndexPage = props => {
     )
   }
 
-  console.log(albumNodes)
-
   return (
     <Layout>
       <SEO title={site.title} description={site.description} keywords={site.keywords} />
